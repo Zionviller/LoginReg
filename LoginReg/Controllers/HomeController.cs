@@ -5,39 +5,72 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using LoginReg.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace LoginReg.Controllers
 {
     public class HomeController : Controller
     {
-        public IActionResult Index()
+        private readonly Context _context;
+
+        public HomeController(Context con)
         {
+            _context = con;
+        }
+
+        [HttpGet("")]
+        public ViewResult Index()
+        {
+            // check if logged in
+            //// if logged in go to success.
             return View();
         }
 
-        public IActionResult About()
+        [HttpPost("Login")]
+        public IActionResult Login(LoginSubmission sub)
         {
-            ViewData["Message"] = "Your application description page.";
+            if(ModelState.IsValid)
+            {
+                // check login info
+                //// return views from errors
+                return RedirectToAction("Success");
+            }
 
-            return View();
+            return View("Index");
         }
 
-        public IActionResult Contact()
+        [HttpGet("Register")]
+        public ViewResult Register()
         {
-            ViewData["Message"] = "Your contact page.";
 
-            return View();
+            return View("Register");
         }
 
-        public IActionResult Privacy()
+        [HttpPost("CreateUser")]
+        public IActionResult CreateUser(User user)
         {
-            return View();
+            if(ModelState.IsValid)
+            {
+                //create user
+                //update session info
+                return RedirectToAction("Success");
+            }
+
+            return View("Register");
         }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
+        [HttpGet("Success")]
+        public ViewResult Success()
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            //get session user info
+            return View("Success");
+        }
+
+        [HttpGet("Logout")]
+        public RedirectToActionResult Logout()
+        {
+            HttpContext.Session.Clear();
+            return RedirectToAction("Index");
         }
     }
 }
