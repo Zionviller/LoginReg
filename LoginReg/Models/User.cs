@@ -26,6 +26,9 @@ namespace LoginReg.Models
         [DataType(DataType.Password)]
         public string Password { get; set; }
 
+        public DateTime CreatedAt { get; set; }
+        public DateTime UpdatedAt { get; set; }
+
         [Required(ErrorMessage = "Re-enter the password")]
         [NotMapped]
         [Compare("Password")]

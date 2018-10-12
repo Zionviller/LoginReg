@@ -12,4 +12,12 @@
   <ItemGroup>
     <Content Remove="Views\Home\About.cshtml" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Migrations\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="Migrations\20181011224448_logreg.cs" />
+    <Compile Remove="Migrations\20181011224448_logreg.Designer.cs" />
+    <Compile Remove="Migrations\ContextModelSnapshot.cs" />
+  </ItemGroup>
 </Project>
