@@ -118,8 +118,13 @@ namespace LoginReg.Controllers
         }
 
         [HttpGet("Success")]
-        public ViewResult Success()
+        public IActionResult Success()
         {
+            if(HttpContext.Session.GetInt32("UserId") == null)
+            {
+                return RedirectToAction("Index");
+            }
+
             User user = _context.Users
                                 .FirstOrDefault<User>(u => u.UserId == HttpContext.Session.GetInt32("UserId"));
             return View("Success", user);
